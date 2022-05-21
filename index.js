@@ -48,7 +48,19 @@ async function run() {
             
         });
 
-       
+        app.put('/product/:id', async(req, res)=>{
+            const id = req.params.id;
+           const newQuantity=req.body;
+           const filter={_id: ObjectId(id)};
+           const options={upsert: true};
+           const updatedDoc={
+               $set:{
+                   quantity: newQuantity.quantity
+               }
+           };
+           const result= await dataCollection.updateOne( filter,updatedDoc, options);
+           res.send(result);
+        });
 
         app.put('/product/:id', async(req, res)=>{
             const id=req.params.id;
